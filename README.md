@@ -1,4 +1,4 @@
-# open-flight-client
+# OpenFlight Client
 
 ## Project setup
 ```
