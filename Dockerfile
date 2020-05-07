@@ -1,5 +1,5 @@
 # base image
-FROM node:12.2.0-alpine
+FROM node:14-slim
 
 # set working directory
 WORKDIR /app
@@ -14,4 +14,3 @@ RUN npm install @vue/cli@3.7.0 -g
 
 # start app
 CMD ["npm", "run", "serve"]
-
