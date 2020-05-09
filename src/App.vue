@@ -51,7 +51,7 @@
     </v-navigation-drawer>
 
     <v-app-bar app color="blue darken-1" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="loggedIn" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="font-weight-bold">OpenFlight</v-toolbar-title>
       <div class="d-flex align-center">
         <v-icon>flight</v-icon>
@@ -72,6 +72,10 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class App extends Vue {
   drawer: any = null;
+
+  get loggedIn(): boolean {
+    return this.$store.state.auth.status.loggedIn;
+  }
 
   public logout(): void {
     this.$store.dispatch("auth/logout");

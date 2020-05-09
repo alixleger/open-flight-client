@@ -133,21 +133,26 @@ export default class AccountForm extends Vue {
   }
 
   public handleRegister(): void {
+    this.loading = true;
     this.$validator.validate().then(isValid => {
-      if (isValid) {
-        this.$store.dispatch('auth/register', this.user).then(
-          async data => {
-            this.message = "Compte créé !";
-            this.successful = true;
-            await new Promise(r => setTimeout(r, 750));
-            this.$router.push("/login");
-          },
-          error => {
-            this.message = error.response.data.error;
-            this.successful = false;
-          }
-        );
+      if (!isValid) {
+        this.loading = false;
+        return;
       }
+      
+      this.$store.dispatch('auth/register', this.user).then(
+        async data => {
+          this.message = "Compte créé !";
+          this.successful = true;
+          await new Promise(r => setTimeout(r, 750));
+          this.$router.push("/login");
+        },
+        error => {
+          this.loading = false;
+          this.message = error.response.data.error;
+          this.successful = false;
+        }
+      );
     });
   }
 }

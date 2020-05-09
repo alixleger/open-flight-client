@@ -19,8 +19,8 @@ class AuthService {
       });
   }
 
-  logout() {
-    axios.post(API_URL + 'logout');
+  async logout() {
+    await axios.post(API_URL + 'logout');
     localStorage.removeItem('user');
   }
 
