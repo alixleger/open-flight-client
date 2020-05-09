@@ -15,7 +15,7 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/settings')">
           <v-list-item-action>
             <v-icon>settings</v-icon>
           </v-list-item-action>
