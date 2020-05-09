@@ -1,6 +1,44 @@
 <template>
   <v-app>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>settings</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Paramètres</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>flight_takeoff</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sélection de vols</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>bar_chart</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Analyse des prix</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>power_settings_new</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Déconnexion</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar app color="blue darken-1" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="font-weight-bold">OpenFlight</v-toolbar-title>
       <div class="d-flex align-center">
         <v-icon>flight</v-icon>
@@ -21,7 +59,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "App",
   data: () => ({
-    //
+    drawer: null,
   })
 });
 </script>

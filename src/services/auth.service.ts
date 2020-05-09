@@ -1,6 +1,5 @@
 import axios from 'axios';
 import User from '@/models/user';
-import authHeader from './auth-header';
 
 const API_URL = 'https://api-openflight.alixleger.fr/';
 
@@ -33,7 +32,7 @@ class AuthService {
 
   refreshToken() {
     return axios
-      .get(API_URL + 'auth/refresh_token', {headers: authHeader()})
+      .get(API_URL + 'auth/refresh_token')
       .then(response => {
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));

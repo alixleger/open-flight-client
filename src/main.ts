@@ -4,9 +4,9 @@ import router from "./router";
 import store from "./store";
 import VeeValidate from 'vee-validate';
 import vuetify from "./plugins/vuetify";
-import interceptorsSetup from "@/helpers/interceptor";
+import setupAxiosJWTMiddlewares from "@/helpers/interceptors";
 
-interceptorsSetup();
+setupAxiosJWTMiddlewares();
 
 Vue.config.productionTip = false;
 Vue.use(VeeValidate);
