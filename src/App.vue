@@ -39,7 +39,7 @@
             <v-list-item-title>Analyse des prix</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="logout">
           <v-list-item-action>
             <v-icon>power_settings_new</v-icon>
           </v-list-item-action>
@@ -67,12 +67,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Vue } from "vue-property-decorator";
 
-export default Vue.extend({
-  name: "App",
-  data: () => ({
-    drawer: null,
-  })
-});
+@Component
+export default class App extends Vue {
+  drawer: any = null;
+
+  public logout(): void {
+    this.$store.dispatch("auth/logout");
+    this.$router.push("/login");
+  }
+};
 </script>

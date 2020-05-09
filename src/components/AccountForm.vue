@@ -83,8 +83,8 @@ export default class AccountForm extends Vue {
 
   created() {
     if (this.loggedIn) {
-      if (this.login === 'login') {
-        this.$router.push("/about");
+      if (this.login === 'true') {
+        this.$router.push("/home");
       } else {
         this.$router.push("/login");
       }
@@ -110,7 +110,7 @@ export default class AccountForm extends Vue {
       if (this.user.email && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           () => {
-            this.$router.push("/about");
+            this.$router.push("/home");
           },
           error => {
             this.loading = false;
