@@ -5,6 +5,11 @@
       v-if="!successful && message"
       type="error"
       >{{ message }}</v-alert>
+    <v-alert
+      v-model="alert"
+      v-if="successful && message"
+      type="success"
+      >{{ message }}</v-alert>
     <v-card class="elevation-12" loading="loading">
       <v-toolbar color="blue darken-1" dark flat>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
@@ -109,7 +114,10 @@ export default class AccountForm extends Vue {
 
       if (this.user.email && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
-          () => {
+          async () => {
+            this.message = "Connexion réussie !";
+            this.successful = true;
+            await new Promise(r => setTimeout(r, 750));
             this.$router.push("/home");
           },
           error => {
@@ -125,17 +133,17 @@ export default class AccountForm extends Vue {
   }
 
   public handleRegister(): void {
-    this.message = '';
     this.$validator.validate().then(isValid => {
       if (isValid) {
         this.$store.dispatch('auth/register', this.user).then(
-          data => {
+          async data => {
             this.message = "Compte créé !";
             this.successful = true;
+            await new Promise(r => setTimeout(r, 750));
             this.$router.push("/login");
           },
           error => {
-            this.message = error.response.data.message;
+            this.message = error.response.data.error;
             this.successful = false;
           }
         );

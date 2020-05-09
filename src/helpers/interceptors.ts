@@ -6,13 +6,15 @@ export default function setup() {
     axios.interceptors.response.use(response => {
         return response;
     }, error => {
-        if (error.response.status !== 401) {
+        if (error.response.status !== 401 
+            || error.config.url.includes('login')
+            || error.config.url.includes('register')) {
             return new Promise((_, reject) => {
                 reject(error);
             });
         }
 
-        if (error.config.url == '/auth/refresh_token') {
+        if (error.config.url.includes('auth/refresh_token')) {
             AuthService.logout();
             router.push({name: "Login"});
 
@@ -50,7 +52,7 @@ export default function setup() {
         const item = localStorage.getItem('user');
         const user = item ? JSON.parse(item) : null;
         if (user && user.token) {
-            config.headers['Authorization'] = 'Bearer ' + user.token;
+            config.headers.Authorization = 'Bearer ' + user.token;
         }
 
         return config;
