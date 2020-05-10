@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  openflight_client:
+    container_name: openflight_client_prod
+    build:
+      context: .
+      dockerfile: ./docker/prod.Dockerfile
+    ports:
+      - "8080:8080"
