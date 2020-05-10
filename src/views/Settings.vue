@@ -8,22 +8,27 @@
         <v-alert v-if="successful && message" type="success">
           {{ message }}
         </v-alert>
-          <v-form v-model="valid">
-            <v-text-field
-              type="password"
-              v-model="user.password"
-              label="Nouveau mot de passe"
-              :rules="passwordRules"
-              required
-            ></v-text-field>
-            <v-text-field
-              type="password"
-              v-model="passwordConfirmation"
-              label="Confirmer le mot de passe"
-              :rules="confirmedPasswordRules"
-              required
-            ></v-text-field>
-            <v-btn color="success" :disabled="!valid" @click="submit">Modifier</v-btn>
+        <h1>{{ decodedJWT.id }}</h1>
+        <p>Connecté depuis le {{ new Date(decodedJWT.orig_iat * 1000).toLocaleString() }}</p>
+        
+        
+        <v-form v-model="valid">
+          <h2>Modifier le mot de passe</h2>
+          <v-text-field
+            type="password"
+            v-model="user.password"
+            label="Nouveau mot de passe"
+            :rules="passwordRules"
+            required
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="passwordConfirmation"
+            label="Confirmer le mot de passe"
+            :rules="confirmedPasswordRules"
+            required
+          ></v-text-field>
+          <v-btn color="success" :disabled="!valid" @click="submit">Modifier</v-btn>
         </v-form>
       </v-col>
     </v-row>
@@ -33,6 +38,7 @@
 <script  lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import User from "@/models/user";
+import * as JWT from 'jwt-decode';
 
 @Component
 export default class Settings extends Vue {
@@ -56,6 +62,10 @@ export default class Settings extends Vue {
       (v: any) => this.user.password.localeCompare(v) === 0 ||
         "Les mots de passe doivent être égaux",
     ]);
+  }
+
+  get decodedJWT() {
+    return JWT(this.$store.state.auth.user.token)
   }
 
   public submit(): void {
