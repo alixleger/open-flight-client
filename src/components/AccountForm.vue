@@ -1,21 +1,19 @@
 <template>
   <div>
     <v-alert
-      v-model="alert"
-      v-if="!successful && message"
+      v-if="!successful && this.message"
       type="error"
-      >{{ message }}</v-alert>
+      >{{ this.message }}</v-alert>
     <v-alert
-      v-model="alert"
-      v-if="successful && message"
+      v-if="successful && this.message"
       type="success"
-      >{{ message }}</v-alert>
+      >{{ this.message }}</v-alert>
     <v-card class="elevation-12" loading="loading">
       <v-toolbar color="blue darken-1" dark flat>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-form :lazy-validation="lazy" v-model="valid">
+        <v-form v-model="valid">
           <v-text-field
             v-model="user.email"
             :rules="emailRules"
@@ -59,12 +57,12 @@ export default class AccountForm extends Vue {
   @Prop() readonly componentToRedirect!: string;
   @Prop() readonly linkLabel!: string;
   @Prop() readonly login!: string;
-  @Prop() message!: string;
 
   user: User = new User("", "");
-  loading: boolean|undefined;
-  valid: boolean|undefined = true;
-  successful: boolean|undefined = false;
+  loading = false;
+  valid = true;
+  successful = false;
+  message = "";
 
   get loggedIn(): boolean {
     return this.$store.state.auth.status.loggedIn;
@@ -88,20 +86,12 @@ export default class AccountForm extends Vue {
 
   created() {
     if (this.loggedIn) {
-      if (this.login === 'true') {
-        this.$router.push("/home");
-      } else {
-        this.$router.push("/login");
-      }
+      this.$router.push("/home");
     }
   }
 
   public handler(): void {
-    if (this.login ===  'true') {
-      this.handleLogin();
-    } else {
-      this.handleRegister()
-    }
+    this.login === 'true' ? this.handleLogin() : this.handleRegister();
   }
 
   public handleLogin(): void {
