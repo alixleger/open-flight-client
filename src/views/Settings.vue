@@ -38,7 +38,8 @@
 <script  lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import User from "@/models/user";
-import * as JWT from 'jwt-decode';
+/* eslint-disable @typescript-eslint/camelcase */
+import jwt_decode from "jwt-decode";
 
 @Component
 export default class Settings extends Vue {
@@ -65,7 +66,7 @@ export default class Settings extends Vue {
   }
 
   get decodedJWT() {
-    return JWT(this.$store.state.auth.user.token)
+    return jwt_decode(this.$store.state.auth.user.token)
   }
 
   public submit(): void {
