@@ -9,9 +9,10 @@
           {{ message }}
         </v-alert>
         <h1>{{ decodedJWT.id }}</h1>
-        <p>Connecté depuis le {{ new Date(decodedJWT.orig_iat * 1000).toLocaleString() }}</p>
-        
-        
+        <p>
+          Connecté depuis le
+          {{ new Date(decodedJWT.orig_iat * 1000).toLocaleString() }}
+        </p>
         <v-form v-model="valid">
           <h2>Modifier le mot de passe</h2>
           <v-text-field
@@ -28,14 +29,16 @@
             :rules="confirmedPasswordRules"
             required
           ></v-text-field>
-          <v-btn color="success" :disabled="!valid" @click="submit">Modifier</v-btn>
+          <v-btn color="success" :disabled="!valid" @click="submit"
+            >Modifier
+          </v-btn>
         </v-form>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script  lang="ts">
+<script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import User from "@/models/user";
 /* eslint-disable @typescript-eslint/camelcase */
@@ -51,22 +54,23 @@ export default class Settings extends Vue {
 
   get passwordRules(): Array<Function> {
     return [
-      (v: any) => !!v ||
-        "Le mot de passe est requis",
-      (v: any) => (v && v.length >= 6) ||
-        "Le mot de passe doit avoir au minimum 6 caractères",
+      (v: string) => !!v || "Le mot de passe est requis",
+      (v: string) =>
+        (v && v.length >= 6) ||
+        "Le mot de passe doit avoir au minimum 6 caractères"
     ];
   }
 
   get confirmedPasswordRules(): Array<Function> {
     return this.passwordRules.concat([
-      (v: any) => this.user.password.localeCompare(v) === 0 ||
-        "Les mots de passe doivent être égaux",
+      (v: string) =>
+        this.user.password.localeCompare(v) === 0 ||
+        "Les mots de passe doivent être égaux"
     ]);
   }
 
   get decodedJWT() {
-    return jwt_decode(this.$store.state.auth.user.token)
+    return jwt_decode(this.$store.state.auth.user.token);
   }
 
   public submit(): void {
@@ -75,8 +79,8 @@ export default class Settings extends Vue {
         return;
       }
 
-      this.$store.dispatch('user/updateInfos', this.user).then(
-        async data => {
+      this.$store.dispatch("user/updateInfos", this.user).then(
+        async () => {
           this.message = "Mot de passe mis à jour !";
           this.successful = true;
         },

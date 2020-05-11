@@ -1,13 +1,11 @@
 <template>
   <div>
-    <v-alert
-      v-if="!successful && this.message"
-      type="error"
-      >{{ this.message }}</v-alert>
-    <v-alert
-      v-if="successful && this.message"
-      type="success"
-      >{{ this.message }}</v-alert>
+    <v-alert v-if="!successful && this.message" type="error">{{
+      this.message
+    }}</v-alert>
+    <v-alert v-if="successful && this.message" type="success">{{
+      this.message
+    }}</v-alert>
     <v-card class="elevation-12" loading="loading">
       <v-toolbar color="blue darken-1" dark flat>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
@@ -40,7 +38,9 @@
           {{ linkLabel }}
         </router-link>
         <v-spacer />
-        <v-btn color="success" :disabled="!valid" @click="handler">{{ buttonLabel }}</v-btn>
+        <v-btn color="success" :disabled="!valid" @click="handler">{{
+          buttonLabel
+        }}</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -70,17 +70,17 @@ export default class AccountForm extends Vue {
 
   get emailRules() {
     return [
-      (v: any) => !!v || "L'adresse e-mail est requise",
-      (v: any) => /.+@.+\..+/.test(v) || "L'adresse e-mail doit être valide",
+      (v: string) => !!v || "L'adresse e-mail est requise",
+      (v: string) => /.+@.+\..+/.test(v) || "L'adresse e-mail doit être valide"
     ];
   }
 
   get passwordRules() {
     return [
-      (v: any) => !!v ||
-        "Le mot de passe est requis",
-      (v: any) => (v && v.length >= 6) ||
-        "Le mot de passe doit avoir au minimum 6 caractères",
+      (v: string) => !!v || "Le mot de passe est requis",
+      (v: string) =>
+        (v && v.length >= 6) ||
+        "Le mot de passe doit avoir au minimum 6 caractères"
     ];
   }
 
@@ -91,7 +91,7 @@ export default class AccountForm extends Vue {
   }
 
   public handler(): void {
-    this.login === 'true' ? this.handleLogin() : this.handleRegister();
+    this.login === "true" ? this.handleLogin() : this.handleRegister();
   }
 
   public handleLogin(): void {
@@ -129,9 +129,9 @@ export default class AccountForm extends Vue {
         this.loading = false;
         return;
       }
-      
-      this.$store.dispatch('auth/register', this.user).then(
-        async data => {
+
+      this.$store.dispatch("auth/register", this.user).then(
+        async () => {
           this.message = "Compte créé !";
           this.successful = true;
           await new Promise(r => setTimeout(r, 750));
