@@ -17,14 +17,14 @@
           <h2>Modifier le mot de passe</h2>
           <v-text-field
             type="password"
-            v-model="user.password"
+            v-model.trim="user.password"
             label="Nouveau mot de passe"
             :rules="passwordRules"
             required
           ></v-text-field>
           <v-text-field
             type="password"
-            v-model="passwordConfirmation"
+            v-model.trim="passwordConfirmation"
             label="Confirmer le mot de passe"
             :rules="confirmedPasswordRules"
             required

@@ -15,12 +15,13 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import AccountForm from "@/components/AccountForm.vue";
 
-export default {
-  name: "Login",
+@Component({
   components: {
     AccountForm
   }
-};
+})
+export default class Login extends Vue {}
 </script>

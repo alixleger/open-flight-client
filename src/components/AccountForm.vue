@@ -13,7 +13,7 @@
       <v-card-text>
         <v-form v-model="valid">
           <v-text-field
-            v-model="user.email"
+            v-model.trim="user.email"
             :rules="emailRules"
             label="Email"
             name="email"
@@ -22,7 +22,7 @@
             required
           />
           <v-text-field
-            v-model="user.password"
+            v-model.trim="user.password"
             :rules="passwordRules"
             id="password"
             label="Mot de passe"
