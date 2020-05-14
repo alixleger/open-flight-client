@@ -1,7 +1,7 @@
-import AuthService from '@/services/auth.service';
-import User from '@/models/user';
+import AuthService from "@/services/auth.service";
+import User from "@/models/user";
 
-const item = localStorage.getItem('user');
+const item = localStorage.getItem("user");
 const user = item ? JSON.parse(item) : null;
 const initialState = user
   ? { status: { loggedIn: true }, user }
@@ -11,30 +11,30 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
-    login({ commit }: any, user: User) {
+    login({ commit }: unknown, user: User) {
       return AuthService.login(user).then(
         user => {
-          commit('loginSuccess', user);
+          commit("loginSuccess", user);
           return Promise.resolve(user);
         },
         error => {
-          commit('loginFailure');
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
     },
-    logout({ commit }: any) {
+    logout({ commit }: unknown) {
       AuthService.logout();
-      commit('logout');
+      commit("logout");
     },
-    register({ commit }: any, user: User) {
+    register({ commit }: unknown, user: User) {
       return AuthService.register(user).then(
         response => {
-          commit('registerSuccess');
+          commit("registerSuccess");
           return Promise.resolve(response.data);
         },
         error => {
-          commit('registerFailure');
+          commit("registerFailure");
           return Promise.reject(error);
         }
       );

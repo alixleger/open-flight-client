@@ -1,5 +1,5 @@
-import axios from 'axios';
-import User from '@/models/user';
+import axios from "axios";
+import User from "@/models/user";
 
 class AuthService {
   login(user: User) {
@@ -10,7 +10,7 @@ class AuthService {
       })
       .then(response => {
         if (response.data.token) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem("user", JSON.stringify(response.data));
         }
 
         return response.data;
@@ -19,7 +19,7 @@ class AuthService {
 
   async logout() {
     await axios.post(`${process.env.VUE_APP_API_URL}logout`);
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
   }
 
   register(user: User) {
@@ -34,9 +34,9 @@ class AuthService {
       .get(`${process.env.VUE_APP_API_URL}auth/refresh_token`)
       .then(response => {
         if (response.data.token) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem("user", JSON.stringify(response.data));
         }
-      })
+      });
   }
 }
 
