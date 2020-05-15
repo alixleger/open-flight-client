@@ -1,9 +1,9 @@
-import PlaceService from '@/services/place.service';
-import Place from '@/models/place';
+import PlaceService from "@/services/place.service";
+import Place from "@/models/place";
 
 export const flights = {
   namespaced: true,
-  state: {departPlaces: [], arrivalPlaces: []},
+  state: { departPlaces: [], arrivalPlaces: [] },
   actions: {
     getDepartPlaces({ commit }: unknown, search: string) {
       return PlaceService.getPlaces(search).then(
@@ -28,7 +28,7 @@ export const flights = {
           return Promise.reject(error);
         }
       );
-    },
+    }
   },
   mutations: {
     getDepartPlacesSuccess(state: any, apiPlaces: Array<Place>) {
