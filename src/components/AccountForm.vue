@@ -6,7 +6,7 @@
     <v-alert v-if="successful && this.message" type="success">{{
       this.message
     }}</v-alert>
-    <v-card class="elevation-12" loading="loading">
+    <v-card class="elevation-12" :loading="loading">
       <v-toolbar color="blue darken-1" dark flat>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
       </v-toolbar>
