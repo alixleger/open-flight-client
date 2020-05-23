@@ -30,7 +30,7 @@
             <v-list-item-title>Sélection de vols</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/prices')">
           <v-list-item-action>
             <v-icon>bar_chart</v-icon>
           </v-list-item-action>
