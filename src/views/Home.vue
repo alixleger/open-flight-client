@@ -1,8 +1,11 @@
 <template>
-  <v-container fluid>
+  <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <v-col cols="12" md="10">
-        <v-card :loading="flightsSearchLoading">
+        <v-alert v-if="flights && !flights.length" type="error" dismissible
+          >Aucun vol trouvé pour cette recherche :'(</v-alert
+        >
+        <v-card>
           <v-card-title
             class="headline blue lighten-1 font-weight-regular white--text"
           >
@@ -16,7 +19,6 @@
               <v-autocomplete
                 v-model="departPlace"
                 :items="departPlaceItems"
-                :loading="departPlacesSearchLoading"
                 :search-input.sync="departPlaceSearch"
                 hide-no-data
                 hide-selected
@@ -31,7 +33,6 @@
               <v-autocomplete
                 v-model="arrivalPlace"
                 :items="arrivalPlaceItems"
-                :loading="arrivalPlacesSearchLoading"
                 :search-input.sync="arrivalPlaceSearch"
                 hide-no-data
                 hide-selected
@@ -70,6 +71,10 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
+            <v-btn :disabled="!(departPlace || arrivalPlace)" @click="clear">
+              Clear
+              <v-icon right>mdi-close-circle</v-icon>
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn color="success" :disabled="!valid" @click="searchFlights"
               >Rechercher</v-btn
@@ -77,7 +82,11 @@
           </v-card-actions>
           <v-divider></v-divider>
           <v-expand-transition>
-            <v-list> </v-list>
+            <v-list v-if="flights">
+              <v-list-item v-for="(flight, i) in flights" :key="i">
+                <FlightItem :flight="flight" />
+              </v-list-item>
+            </v-list>
           </v-expand-transition>
         </v-card>
       </v-col>
@@ -88,12 +97,15 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Place from "@/models/place";
+import FlightItem from "@/components/FlightItem.vue";
 
-@Component
+@Component({
+  components: {
+    FlightItem
+  }
+})
 export default class Home extends Vue {
-  flightsSearchLoading = false;
-  departPlacesSearchLoading = false;
-  arrivalPlacesSearchLoading = false;
+  type = false;
   valid = true;
   menu = false;
   date = new Date().toISOString().substr(0, 10);
@@ -111,6 +123,10 @@ export default class Home extends Vue {
 
     const [year, month, day] = date.split("-");
     return `${day}/${month}/${year}`;
+  }
+
+  get flights() {
+    return this.$store.state.flights.flights;
   }
 
   get departPlaces(): Array<Place> {
@@ -152,10 +168,17 @@ export default class Home extends Vue {
   }
 
   public searchFlights(): void {
-    console.log("search flights with that param :");
-    console.log(this.departPlace);
-    console.log(this.arrivalPlace);
-    console.log(this.date);
+    this.$store.dispatch("flights/getFlights", {
+      departPlace: this.departPlace,
+      arrivalPlace: this.arrivalPlace,
+      departDate: new Date(this.date)
+    });
+  }
+
+  public clear(): void {
+    this.$store.dispatch("flights/clear");
+    this.date = new Date().toISOString().substr(0, 10);
+    this.departPlace = this.arrivalPlace = new Place(0, "", "", "");
   }
 }
 </script>

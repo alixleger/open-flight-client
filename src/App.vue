@@ -22,7 +22,7 @@
             <v-list-item-title>Paramètres</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="$router.push('/home')">
           <v-list-item-action>
             <v-icon>flight_takeoff</v-icon>
           </v-list-item-action>

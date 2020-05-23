@@ -1,9 +1,15 @@
 import PlaceService from "@/services/place.service";
 import Place from "@/models/place";
+import FlightService from "@/services/flight.service";
+import Flight from "@/models/flight";
 
 export const flights = {
   namespaced: true,
-  state: { departPlaces: [], arrivalPlaces: [] },
+  state: {
+    departPlaces: [],
+    arrivalPlaces: [],
+    flights: null
+  },
   actions: {
     getDepartPlaces({ commit }: unknown, search: string) {
       return PlaceService.getPlaces(search).then(
@@ -28,6 +34,35 @@ export const flights = {
           return Promise.reject(error);
         }
       );
+    },
+    getFlights({ commit }: unknown, body: any) {
+      const departPlace: Place = body.departPlace;
+      const arrivalPlace: Place = body.arrivalPlace;
+      const departDate: Date = body.departDate;
+
+      return FlightService.getFlights(
+        departPlace,
+        arrivalPlace,
+        departDate
+      ).then(
+        response => {
+          const apiFlights = response.data.flights;
+          commit("getFlightsSuccess", apiFlights);
+          return Promise.resolve(apiFlights);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
+    clear({ commit }: unknown) {
+      commit("clearState");
+    },
+    favFlight({ commit }: unknown, body: any) {
+      const flight: Flight = body.flight;
+      const targetPrice: number = body.targetPrice;
+
+      return FlightService.favFlight(flight, targetPrice);
     }
   },
   mutations: {
@@ -36,6 +71,16 @@ export const flights = {
     },
     getArrivalPlacesSuccess(state: any, apiPlaces: Array<Place>) {
       state.arrivalPlaces = apiPlaces;
+    },
+    getFlightsSuccess(state: any, apiFlights: Array<Flight>) {
+      state.flights = apiFlights;
+    },
+    clearState(state: any) {
+      state = {
+        departPlaces: [],
+        arrivalPlaces: [],
+        flights: null
+      };
     }
   }
 };
