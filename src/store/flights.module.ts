@@ -8,7 +8,9 @@ export const flights = {
   state: {
     departPlaces: [],
     arrivalPlaces: [],
-    flights: null
+    flights: null,
+    favFlights: [],
+    flightPrices: new Map()
   },
   actions: {
     getDepartPlaces({ commit }: unknown, search: string) {
@@ -63,6 +65,38 @@ export const flights = {
       const targetPrice: number = body.targetPrice;
 
       return FlightService.favFlight(flight, targetPrice);
+    },
+    fetchFavFlights({ commit }: unknown) {
+      FlightService.getFavFlights().then(
+        response => {
+          const apiFavFlights = response.data.fav_flights;
+          commit("fetchFavFlightsSuccess", apiFavFlights);
+          return Promise.resolve(apiFavFlights);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
+    fetchFlightPrices({ commit }: unknown) {
+      FlightService.getFlightPrices().then(
+        response => {
+          const apiFlightPrices = response.data[0].Series[0];
+          const flightPrices = new Map();
+          for (let i = 0; i < apiFlightPrices.values.length; i++) {
+            const key = apiFlightPrices.values[i][1];
+            if (!flightPrices.has(key)) {
+              flightPrices.set(key, []);
+            }
+            flightPrices.get(key).push(apiFlightPrices.values[i][2]);
+          }
+          commit("fetchFlightPricesSuccess", flightPrices);
+          return Promise.resolve(apiFlightPrices);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {
@@ -79,8 +113,16 @@ export const flights = {
       state = {
         departPlaces: [],
         arrivalPlaces: [],
-        flights: null
+        flights: null,
+        favFlights: [],
+        flightPrices: new Map()
       };
+    },
+    fetchFavFlightsSuccess(state: any, apiFavFlights: any) {
+      state.favFlights = apiFavFlights;
+    },
+    fetchFlightPricesSuccess(state: any, flightPrices: any) {
+      state.flightPrices = flightPrices;
     }
   }
 };

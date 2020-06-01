@@ -20,6 +20,14 @@ class FlightService {
       target_price: Math.floor(targetPrice)
     });
   }
+
+  getFavFlights() {
+    return axios.get(`${process.env.VUE_APP_API_URL}auth/favflights`);
+  }
+
+  getFlightPrices() {
+    return axios.get(`${process.env.VUE_APP_API_URL}auth/flightprices`);
+  }
 }
 
 export default new FlightService();
