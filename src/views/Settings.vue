@@ -9,10 +9,6 @@
           {{ message }}
         </v-alert>
         <h1>{{ decodedJWT.id }}</h1>
-        <p>
-          Connecté depuis le
-          {{ new Date(decodedJWT.orig_iat * 1000).toLocaleString() }}
-        </p>
         <v-form v-model="valid">
           <h2>Modifier le mot de passe</h2>
           <v-text-field

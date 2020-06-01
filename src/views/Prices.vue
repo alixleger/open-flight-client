@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="6">
+      <v-col xl="6" lg="6" md="12" sm="12" xs="12">
         <v-card tile>
           <v-list>
             <v-subheader>Vols favoris</v-subheader>
@@ -24,7 +24,7 @@
           </v-list>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col xl="6" lg="6" md="12" sm="12" xs="12">
         <v-card tile>
           <v-card-title>
             <v-row align="start" justify="center">
@@ -41,18 +41,22 @@
             </v-row>
           </v-card-title>
           <v-card-text>
-            <v-sparkline
-              :value="value"
-              :gradient="gradient"
-              :smooth="false"
-              :padding="value.length"
-              :stroke-linecap="lineCap"
-              :gradient-direction="gradientDirection"
-              :fill="fill"
-              :type="type"
-              :auto-line-width="autoLineWidth"
-              auto-draw
-            />
+            <v-sheet>
+              <v-sparkline
+                :value="value"
+                :gradient="gradient"
+                :padding="value.length + 5"
+                stroke-linecap="round"
+                :gradient-direction="gradientDirection"
+                :fill="fill"
+                :type="type"
+                :auto-line-width="autoLineWidth"
+                auto-draw
+                smooth
+              >
+                <template v-slot:label="item"> {{ item.value }}€ </template>
+              </v-sparkline>
+            </v-sheet>
           </v-card-text>
 
           <v-card-text>
@@ -78,7 +82,6 @@ const gradients = [
 
 @Component
 export default class Prices extends Vue {
-  currentFlightID = "";
   lineCap = "round";
   gradient = gradients[5];
   value = [];
@@ -103,11 +106,10 @@ export default class Prices extends Vue {
   }
 
   public setCurrentFlightID(id: string) {
-    this.currentFlightID = id;
-    if (!this.flightPrices.has(this.currentFlightID)) {
+    if (!this.flightPrices.has(id)) {
       return;
     }
-    this.value = this.flightPrices.get(this.currentFlightID);
+    this.value = this.flightPrices.get(id);
     this.last = this.value.slice(-1).pop();
   }
 }
