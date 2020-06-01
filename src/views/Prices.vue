@@ -90,7 +90,7 @@ export default class Prices extends Vue {
   fill = false;
   type = "trend";
   autoLineWidth = true;
-  last = -1;
+  last: unknown;
 
   get favFlights() {
     return this.$store.state.flights.favFlights;

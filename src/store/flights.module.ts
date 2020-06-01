@@ -13,7 +13,7 @@ export const flights = {
     flightPrices: new Map()
   },
   actions: {
-    getDepartPlaces({ commit }: unknown, search: string) {
+    getDepartPlaces({ commit }: any, search: string) {
       return PlaceService.getPlaces(search).then(
         response => {
           const apiPlaces = response.data.places;
@@ -25,7 +25,7 @@ export const flights = {
         }
       );
     },
-    getArrivalPlaces({ commit }: unknown, search: string) {
+    getArrivalPlaces({ commit }: any, search: string) {
       return PlaceService.getPlaces(search).then(
         response => {
           const apiPlaces = response.data.places;
@@ -37,7 +37,7 @@ export const flights = {
         }
       );
     },
-    getFlights({ commit }: unknown, body: any) {
+    getFlights({ commit }: any, body: any) {
       const departPlace: Place = body.departPlace;
       const arrivalPlace: Place = body.arrivalPlace;
       const departDate: Date = body.departDate;
@@ -57,16 +57,16 @@ export const flights = {
         }
       );
     },
-    clear({ commit }: unknown) {
+    clear({ commit }: any) {
       commit("clearState");
     },
-    favFlight({ commit }: unknown, body: any) {
+    favFlight({ commit }: any, body: any) {
       const flight: Flight = body.flight;
       const targetPrice: number = body.targetPrice;
 
       return FlightService.favFlight(flight, targetPrice);
     },
-    fetchFavFlights({ commit }: unknown) {
+    fetchFavFlights({ commit }: any) {
       FlightService.getFavFlights().then(
         response => {
           const apiFavFlights = response.data.fav_flights;
@@ -78,7 +78,7 @@ export const flights = {
         }
       );
     },
-    fetchFlightPrices({ commit }: unknown) {
+    fetchFlightPrices({ commit }: any) {
       FlightService.getFlightPrices().then(
         response => {
           const apiFlightPrices = response.data[0].Series[0];

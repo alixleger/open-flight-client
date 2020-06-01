@@ -11,7 +11,7 @@ export const auth = {
   namespaced: true,
   state: initialState,
   actions: {
-    login({ commit }: unknown, user: User) {
+    login({ commit }: any, user: User) {
       return AuthService.login(user).then(
         user => {
           commit("loginSuccess", user);
@@ -23,11 +23,11 @@ export const auth = {
         }
       );
     },
-    logout({ commit }: unknown) {
+    logout({ commit }: any) {
       AuthService.logout();
       commit("logout");
     },
-    register({ commit }: unknown, user: User) {
+    register({ commit }: any, user: User) {
       return AuthService.register(user).then(
         response => {
           commit("registerSuccess");
