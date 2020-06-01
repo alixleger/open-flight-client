@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:12-alpine as builder
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
