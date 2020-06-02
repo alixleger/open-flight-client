@@ -41,22 +41,18 @@
             </v-row>
           </v-card-title>
           <v-card-text>
-            <v-sheet>
-              <v-sparkline
-                :value="value"
-                :gradient="gradient"
-                :padding="value.length + 5"
-                stroke-linecap="round"
-                :gradient-direction="gradientDirection"
-                :fill="fill"
-                :type="type"
-                :auto-line-width="autoLineWidth"
-                auto-draw
-                smooth
-              >
-                <template v-slot:label="item"> {{ item.value }}€ </template>
-              </v-sparkline>
-            </v-sheet>
+            <v-sparkline
+              :value="value"
+              :gradient="gradient"
+              :padding="value.length + 5"
+              stroke-linecap="round"
+              :gradient-direction="gradientDirection"
+              :fill="fill"
+              :type="type"
+              :auto-line-width="autoLineWidth"
+              auto-draw
+              smooth
+            />
           </v-card-text>
 
           <v-card-text>

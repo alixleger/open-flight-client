@@ -3,15 +3,19 @@ import Place from "@/models/place";
 import FlightService from "@/services/flight.service";
 import Flight from "@/models/flight";
 
-export const flights = {
-  namespaced: true,
-  state: {
+const getDefaultState = () => {
+  return {
     departPlaces: [],
     arrivalPlaces: [],
     flights: null,
     favFlights: [],
     flightPrices: new Map()
-  },
+  }
+}
+
+export const flights = {
+  namespaced: true,
+  state: getDefaultState(),
   actions: {
     getDepartPlaces({ commit }: any, search: string) {
       return PlaceService.getPlaces(search).then(
@@ -110,13 +114,7 @@ export const flights = {
       state.flights = apiFlights;
     },
     clearState(state: any) {
-      state = {
-        departPlaces: [],
-        arrivalPlaces: [],
-        flights: null,
-        favFlights: [],
-        flightPrices: new Map()
-      };
+      Object.assign(state, getDefaultState());
     },
     fetchFavFlightsSuccess(state: any, apiFavFlights: any) {
       state.favFlights = apiFavFlights;
