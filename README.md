@@ -1,5 +1,10 @@
 # OpenFlight Client
 
+## Gantt
+https://github.com/alixleger/open-flight-client/files/4726510/Open_Flight_roadmap.pdf
+## Roadmap
+https://trello.com/b/bPlErgw7/open-flight-roadmap
+
 ## Project setup
 ```
 npm install
